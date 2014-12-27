@@ -29,7 +29,7 @@ request.oauth! http, consumer_key, access_token
 http.start
 response = http.request request
 
-# Parse and print the Tweet if the response code was 200
+#check respnse code
 tweet = nil
 if response.code == '200' then
   tweet = JSON.parse(response.body)
