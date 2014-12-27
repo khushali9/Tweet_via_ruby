@@ -26,8 +26,13 @@ http.use_ssl     = true
 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 
-consumer_key ||= OAuth::Consumer.new "", ""
-access_token ||= OAuth::Token.new "", ""
+#use your own keys
+consumer_key = OAuth::Consumer.new(
+  "XYZ",
+  "-")
+access_token = OAuth::Token.new(
+  "XYZ",
+  "ABC")
 
 # request 
 request.oauth! http, consumer_key, access_token
