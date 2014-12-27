@@ -2,9 +2,7 @@ require 'rubygems'
 require 'oauth'
 require 'json'
 
-# Now you will fetch /1.1/statuses/user_timeline.json,
-# returns a list of public Tweets from the specified
-# account.
+# get timeline
 baseurl = "https://api.twitter.com"
 path    = "/1.1/statuses/user_timeline.json"
 query   = URI.encode_www_form(
@@ -14,7 +12,7 @@ query   = URI.encode_www_form(
 address = URI("#{baseurl}#{path}?#{query}")
 request = Net::HTTP::Get.new address.request_uri
 
-# Print data about a list of Tweets
+# method to print the timeline
 def print_timeline(tweets)
   # ADD CODE TO ITERATE THROUGH EACH TWEET AND PRINT ITS TEXT
   tweets.each do |tweet| puts tweet['text'] end
@@ -22,24 +20,21 @@ def print_timeline(tweets)
 
 end
 
-# Set up HTTP.
+# HTTP Setup
 http             = Net::HTTP.new address.host, address.port
 http.use_ssl     = true
 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
-# If you entered your credentials in the first
-# exercise, no need to enter them again here. The
-# ||= operator will only assign these values if
-# they are not already set.
-consumer_key ||= OAuth::Consumer.new "ENTER IN EXERCISE 1", ""
-access_token ||= OAuth::Token.new "ENTER IN EXERCISE 1", ""
 
-# Issue the request.
+consumer_key ||= OAuth::Consumer.new "", ""
+access_token ||= OAuth::Token.new "", ""
+
+# request 
 request.oauth! http, consumer_key, access_token
 http.start
 response = http.request request
 
-# Parse and print the Tweet if the response code was 200
+# check 200 response code
 tweets = nil
 if response.code == '200' then
   tweets = JSON.parse(response.body)
